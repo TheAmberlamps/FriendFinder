@@ -1,6 +1,5 @@
 var friendsData = require("../data/friends");
 var objMaker = [];
-var friendsVals = [];
 
 module.exports = function(app) {
 
@@ -10,7 +9,7 @@ module.exports = function(app) {
     });
 
     app.post("/api/friends", function(req, res) {
-      console.log("attempting to update the friends table: \n");
+      console.log("\ncomparing clientRequest to stored clientScores and outputting a 'friend value' total : \n");
       // friendsData.push(req.body);
       console.log(req.body.scores);
       for(i=0; i < friendsData.length; i++){
@@ -45,10 +44,18 @@ module.exports = function(app) {
         console.log("\nsubtraction function " + i + ": " + parseInt(req.body.scores[9]) + " minus " + parseInt(friendsData[i].scores[9]));
         var sub9 = Math.abs(req.body.scores[9] - friendsData[i].scores[9]);
         console.log("\n" + sub9);
-        var total = sub0 + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7 + sub8 + sub9
+        var total = sub0 + sub1 + sub2 + sub3 + sub4 + sub5 + sub6 + sub7 + sub8 + sub9;
         console.log("\nTotal: " + total);
+        objMaker.push(total);
+        console.log(objMaker);
       }
-      res.json(true);
+      var hopeSort = Math.min.apply(null, objMaker);
+      console.log(hopeSort);
+
+      var index = objMaker.indexOf(Math.min.apply(null, objMaker));
+      console.log(index);
+      
+      res.json(friendsData[index]);
     });
 
 };
